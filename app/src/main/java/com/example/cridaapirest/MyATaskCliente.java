@@ -10,11 +10,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MyATaskCliente extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... values) {
         String pp = path.getText().toString();
         StringBuffer sb = new StringBuffer();
+        Date date = Calendar.getInstance().getTime();
 
         try {
             URL url = new URL(pp);
@@ -30,9 +33,11 @@ public class MyATaskCliente extends AsyncTask<String, Void, String> {
                     while(jsonReader.hasNext()) {
                         String key = jsonReader.nextName();
                         if (key.equals("id")) {
-                            sb.append("{id:" + jsonReader.nextString() + ",");
+                            sb.append("{id:" + jsonReader.nextString() + ", ");
                         } else if (key.equals("name")) {
-                            sb.append("name:" + jsonReader.nextString() + "}\n");
+                            sb.append("name:" + jsonReader.nextString() + ", ");
+                        } else if (key.equals("comentario")) {
+                            sb.append("comentario: "+jsonReader.nextString() + " fecha: "+ date + "}\n");
                         } else {
                             jsonReader.skipValue();
                         }
